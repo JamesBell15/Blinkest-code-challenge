@@ -8,4 +8,5 @@ import { trackPageview, trackEvent } from "./analytics-api.js";
 
 // Innialise indexedDB to let uniquily identify users
 
-
+// Of active pages display randomly the page, and make sure all api
+// Requests are linked to that page
