@@ -1,4 +1,3 @@
-import "./styles.css";
 import { trackPageview, trackEvent } from "./analytics-api.js";
 
 // Your code here
@@ -15,10 +14,28 @@ import { trackPageview, trackEvent } from "./analytics-api.js";
 // TODO: Don't change page when refreshed
 
 // TODO: link track api request to signup button
-// TODO: link track api request to view site
+// TODO: link track api requests to view site
 
-{
-let frame = getElementById("test-frame")
+let frame = document.getElementById("test-frame")
+
+const change = function change() {
+
+
+  if (frame.src == './experiments/a.html'){
+    frame.src = './experiments/b.html'
+  } else {
+    frame.src = './experiments/a.html'
+  }
+}
+
+
+
+let innerDoc = frame.contentDocument || frame.contentWindow.document;
+console.log(innerDoc)
+let button = innerDoc.getElementById("button")
+console.log(button)
+// button.onclick = change
+
+
 
 console.log(frame)
-}
