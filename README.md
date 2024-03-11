@@ -7,8 +7,9 @@ Locally run
 
 Taking client side seriously but this wouldn't be realistic at all unless it's all running physically at.
 
+Locally hosted on python server for ease of use
 
-could do a node server
+could do a node server, why not?
 
 Finding an in browser testing framework might gives me a head ache
 I would use Rspec but not a rails app.
@@ -27,3 +28,5 @@ Using IndexedDB as it's easy, and isn't cookies. Will be used to track the data 
 
 Use sessions to manage what users see and make sure we aren't duplicating traffic.
 
+
+I would do test driven development if I had the framework and infrastucture I would in a job.
