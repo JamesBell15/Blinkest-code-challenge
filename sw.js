@@ -1,23 +1,74 @@
+function getRandomInt(max) {
+  return Math.floor(Math.random() * max);
+}
+
 const addResourcesToCache = async (resources) => {
   const cache = await caches.open("v1")
   await cache.addAll(resources)
 }
 
+const localResources = [
+  "/",
+  "/index.html",
+  "/index.js",
+  "/ctrdashboard.html",
+  "/src/styles.css",
+  "/src/ctr.js",
+  "/src/analytics-api.js",
+  "/src/experiments/a.html",
+  "/src/experiments/b.html",
+  "/images/hero_image.jpg",
+]
+
 self.addEventListener("install", (event) => {
   event.waitUntil(
-    addResourcesToCache([
-      "/",
-      "/index.html",
-      "/index.js",
-      "/ctrdashboard.html",
-      "/src/styles.css",
-      "/src/ctr.js",
-      "/src/analytics-api.js",
-      "/src/experiments/a.html",
-      "/src/experiments/b.html",
-      "/images/hero_image.jpg",
-    ]),
+    addResourcesToCache(localResources),
   )
+
+  // INDEXEDDB
+
+  // Creates the schema for indexedDB
+  const upgradeStores = (event) => {
+      console.log("Upgrading...")
+
+      const db = event.target.result
+
+      // Used to store the current test site to be shown to user
+      const userData = db.createObjectStore("userInfo", { keyPath: "userTest" })
+
+      // SCHEMA
+      userData.createIndex("testId", "testId", { unique: false })
+
+      userData.transaction.oncomplete = (event) => {
+        // Store values in the newly created objectStore.
+        const userDataOS = db.transaction("userInfo", "readwrite").objectStore("userInfo");
+
+        let tests = localResources.filter((word) => word.includes('/src/experiments/'))
+
+        userDataOS.add({
+          userTest: "src",
+          testId: tests[getRandomInt(tests.length)]
+        })
+      }
+      console.log("Upgraded!")
+  }
+
+  const requestIDB = indexedDB.open("db", 4)
+
+  requestIDB.onupgradeneeded = (event) => {
+      upgradeStores(event)
+  }
+
+  requestIDB.onsuccess = (event) => {
+      console.log(`indexedDB opened`)
+  }
+
+  requestIDB.onerror = (event) => {
+      console.log(`DB ERROR: ${event.target.errorCode}`)
+  }
+
+
+
 })
 
 const putInCache = async (request, response) => {
