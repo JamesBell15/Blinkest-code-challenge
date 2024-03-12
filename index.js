@@ -16,6 +16,10 @@ import { trackPageview, trackEvent } from "./src/analytics-api.js"
 // TODO: link track api request to signup button
 // TODO: link track api requests to view site
 
+
+
+// SERVICE WORKER
+
 const registerServiceWorker = async () => {
   if ("serviceWorker" in navigator) {
     try {
