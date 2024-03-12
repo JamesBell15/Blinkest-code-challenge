@@ -30,3 +30,11 @@ Use sessions to manage what users see and make sure we aren't duplicating traffi
 
 
 I would do test driven development if I had the framework and infrastucture I would in a job.
+
+Semicolons in js are overrated
+
+Using service worker means downloading the whole site, which is slow, but it's all client side so what can be done.
+
+Spin up local server to serve files `python3 -m http.server`
+
+Navigate to `http://localhost:8000/`
