@@ -32,7 +32,7 @@ The site only stores the time of an event occuring and which is the currently se
 
 ## Service Workers: What Not to Do!
 
-I spent too much time trying to implement a service worker to manage the routes and api requests. This turned out to be an inefficient solution as the service worker has no knowledge of the DOM. It also becomes especially fiddly with IndexedDB
+I spent too much time trying to implement a service worker to manage the routes and api requests. This turned out to be an inefficient solution as the service worker has no knowledge of the DOM. It also becomes especially fiddly with IndexedDB.
 
 Using iframes to deliver dynamic content, does the trick. But one issue of extended use is that an experiment gets cached and doesn't update when the site is reloaded. Which might cause issues with content editors.
 
