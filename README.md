@@ -40,6 +40,7 @@ Using iframes to deliver dynamic content, does the trick. But one issue of exten
 
 Make sure to use a proper web framework (Rails/Node).
 Create a testing suite to crush bugs and smooth development.
+Following that Test Driven Development! Though TDD might be overboard for a small project like this, it still should be done.
 
 https://github.com/JamesBell15/Blinkest-code-challenge
 
