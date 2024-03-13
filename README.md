@@ -38,3 +38,20 @@ Using service worker means downloading the whole site, which is slow, but it's a
 Spin up local server to serve files `python3 -m http.server`
 
 Navigate to `http://localhost:8000/`
+
+
+# Service Workers: What Not to Do!
+
+FOOLISH CHOICE!
+
+
+# API speculation
+
+Storing events as time, as it could be useful to determin the time it takes for a user to click through.
+
+Assume that the client side has validated so no duplicates.
+
+
+
+
+
