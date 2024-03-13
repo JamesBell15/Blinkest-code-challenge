@@ -16,28 +16,26 @@ import { trackPageview, trackEvent } from "./src/analytics-api.js"
 // TODO: link track api request to signup button
 // TODO: link track api requests to view site
 
-
-
-// SERVICE WORKER
-
-const registerServiceWorker = async () => {
-  if ("serviceWorker" in navigator) {
-    try {
-      const registration = await navigator.serviceWorker.register("/sw.js", {
-        scope: "/",
-      })
-      if (registration.installing) {
-        console.log("Service worker installing")
-      } else if (registration.waiting) {
-        console.log("Service worker installed")
-      } else if (registration.active) {
-        console.log("Service worker active")
-      }
-    } catch (error) {
-      console.error(`Registration failed with ${error}`)
-    }
-  }
+function getRandomInt(max) {
+  return Math.floor(Math.random() * max);
 }
 
+const experiments = [
+  "/src/experiments/a.html",
+  "/src/experiments/b.html",
+]
 
-registerServiceWorker()
+let test = localStorage.getItem("src");
+
+console.log(test)
+
+if (!test) {
+  let tests = experiments.filter((word) => word.includes('/src/experiments/'))
+
+  test = tests[getRandomInt(tests.length)]
+
+  localStorage.setItem("src", test);
+}
+
+let frame = document.getElementById("test-frame")
+frame.src = test
