@@ -1,11 +1,7 @@
 /**
- * Tracks a pageview to our "imaginary api" - in this demo just the browser console. ;)
- * Send as params whatever you might seem valuable to send.
- * The URL is probably a good start though.
- */
+  If user has not visited makes api request and stores time stamp of request
+*/
 export const trackPageview = async (params) => {
-  console.log(`--> Tracking Pageview: ${params}`);
-
   let pageView = localStorage.getItem("page-view");
 
   if (!pageView) {
@@ -18,13 +14,9 @@ export const trackPageview = async (params) => {
 };
 
 /**
- * Tracks an event to our "imaginary api" - in this demo just the browser console. ;)
- * Send as params whatever you might seem valuable to send.
- * The URL and an event name are probably a good start though.
- */
+  If user has not clicked make api request and stores time stamp of request
+*/
 export const trackEvent = async (params) => {
-  console.log(`--> Tracking Event: ${params}`);
-
   let signupClick = localStorage.getItem("signup-click");
 
   if (!signupClick) {
@@ -36,6 +28,9 @@ export const trackEvent = async (params) => {
   }
 };
 
+/**
+  pretends to receive api resquest, instead stores in IndexedDB
+*/
 const apiEndPoint = async (params) => {
   let data = {}
 
@@ -71,8 +66,10 @@ const apiEndPoint = async (params) => {
   }
 }
 
+/**
+  sets up page to be track users actions
+*/
 window.onload = async function () {
-
   trackPageview()
 
   let link = document.getElementById("signup");
