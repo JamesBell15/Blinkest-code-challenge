@@ -1,57 +1,46 @@
 
+# How to use
 
-I would use the testing framework you use.
+Spin up local server to serve files `python3 py_server.py 8000`
 
+- Navigate to `http://localhost:8000/ctrdashboard.html`
+Very important that this is your first page. Otherwise the site will not function.
+To recover clear your local storage and return to ctrdashboard.
 
-Locally run
+- Next navigate to `http://localhost:8000/`
+You will be assigned a random page from the experiments folder.
+To pretend to be a new user, clear the localstorage. Do not clear IndexedDB else you'll have to return to the top.
 
-Taking client side seriously but this wouldn't be realistic at all unless it's all running physically at.
+- Return to `ctrdashboard` to view the stats.
 
-Locally hosted on python server for ease of use
-
-could do a node server, why not?
-
-Finding an in browser testing framework might gives me a head ache
-I would use Rspec but not a rails app.
-
-ctrdashboard would be the interal dashboard for the staff to track the progress of the experiments
-
-index is front facing sign up page, which will populate from the experiments folder
-
-The content editors can add to the experiments folder new pages
-
-Each page must have a signup button. Assumption that this is for just signup pages & not an abstract A/B testing system to be used for many experiments.
-
-The header should be alterable in the experiment html file but I'm lazy.
-
-Using IndexedDB as it's easy, and isn't cookies. Will be used to track the data recieved from the experiments.
-
-Use sessions to manage what users see and make sure we aren't duplicating traffic.
+- To add more experiments, add them to the `experiments` directory within the `src` directory.
+Also add the relative path in `/src/experiments.js`. Many experiments can be ran simultaneously as long as they are in the experiments list.
 
 
-I would do test driven development if I had the framework and infrastucture I would in a job.
+# Thoughts
 
-Semicolons in js are overrated
+## Client Side:
+Entirely written in javascript to be run within the browser.
+This comes with the issues such as persistent storage, to address this I used IndexedDB to simulate a NoSQL style database. Local storage to simulate user storage.
 
-Using service worker means downloading the whole site, which is slow, but it's all client side so what can be done.
+A major consequence is this could not be deployed, and would only work in a setting where the sights were being shown in person, where someone could reset the site between users.
 
-Spin up local server to serve files `python3 -m http.server`
+To solve this the site would be hosted on a framework such as Rails or Node, and have the api requests sent to the server.
 
-Navigate to `http://localhost:8000/`
+## API speculation:
+The site only stores the time of an event occuring and which is the currently served experiment. The client side is trusted to not generate duplicate requests. A solution would be to collect more information on the user and store that server side to verify requests. This is a privacy and security concern, which the current implementation side steps.
 
+## Service Workers: What Not to Do!
 
-# Service Workers: What Not to Do!
+I spent too much time trying to implement a service worker to manage the routes and api requests. This turned out to be an inefficient solution as the service worker has no knowledge of the DOM. It also becomes especially fiddly with IndexedDB
 
-FOOLISH CHOICE!
+Using iframes to deliver dynamic content, does the trick. But one issue of extended use is that an experiment gets cached and doesn't update when the site is reloaded. Which might cause issues with content editors.
 
+## Things to do better:
 
-# API speculation
+Make sure to use a proper web framework (Rails/Node).
+Create a testing suite to crush bugs and smooth development.
 
-Storing events as time, as it could be useful to determin the time it takes for a user to click through.
-
-Assume that the client side has validated so no duplicates.
-
-
-
+https://github.com/JamesBell15/Blinkest-code-challenge
 
 
