@@ -44,4 +44,4 @@ Following that Test Driven Development! Though TDD might be overboard for a smal
 
 https://github.com/JamesBell15/Blinkest-code-challenge
 
-
+I really should've done this in rails... c'est la vie
