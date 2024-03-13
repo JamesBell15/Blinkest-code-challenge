@@ -27,8 +27,6 @@ const experiments = [
 
 let test = localStorage.getItem("src");
 
-console.log(test)
-
 if (!test) {
   let tests = experiments.filter((word) => word.includes('/src/experiments/'))
 
