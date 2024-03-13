@@ -1,9 +1,4 @@
-
-
-// TODO: set up DB
-// TODO: Calculate Click Through Rate
-
-
+import { EXPERIMENTS } from "./experiments.js";
 
 // Creates the schema for indexedDB
 const upgradeStores = (event) => {
@@ -40,23 +35,34 @@ requestIDB.onerror = (event) => {
     console.log(`DB ERROR: ${event.target.errorCode}`)
 }
 
-const getPageViews = async () => {
+const getPageViews = async (experiment) => {
   const requestIDB = indexedDB.open("db", 4)
 
   return new Promise (function(resolve) {
+
     requestIDB.onsuccess = async (event) => {
       const transaction = requestIDB.result.transaction("pageViews")
       const sightingStore = transaction.objectStore("pageViews")
 
-      sightingStore.count().onsuccess = async (event) => {
+      count = 0
 
-        return resolve(event.target.result)
+      sightingStore.openCursor().onsuccess = (event) => {
+        const cursor = event.target.result;
+        if (cursor) {
+          if (cursor.value.experiment == experiment) {
+            count += 1
+          }
+
+          cursor.continue();
+        } else {
+          return resolve(count)
+        }
       }
     }
   })
 }
 
-const getSignupClicks = async () => {
+const getSignupClicks = async (experiment) => {
 
   const requestIDB = indexedDB.open("db", 4)
 
@@ -65,21 +71,33 @@ const getSignupClicks = async () => {
       const transaction = requestIDB.result.transaction("signupClicks")
       const sightingStore = transaction.objectStore("signupClicks")
 
-      sightingStore.count().onsuccess = async (event) => {
+      count = 0
 
-        return resolve(event.target.result)
+      sightingStore.openCursor().onsuccess = (event) => {
+        const cursor = event.target.result;
+        if (cursor) {
+          if (cursor.value.experiment == experiment) {
+            count += 1
+          }
+
+          cursor.continue();
+        } else {
+          return resolve(count)
+        }
       }
     }
   })
 }
 
-const getCTR = async () => {
-  let pageViews = await getPageViews()
-  let signupClicks = await getSignupClicks()
+const getCTR = async (experiment) => {
+  let pageViews = await getPageViews(experiment)
+  let signupClicks = await getSignupClicks(experiment)
 
   return signupClicks / pageViews
 }
 
+// To get data out of a IndexedDB request need to manipulate a global variable
+let count
 
 window.onload = async function () {
   let frame = document.getElementById("test-frame")
@@ -87,8 +105,15 @@ window.onload = async function () {
   let pageViewsText = document.getElementById("visits")
   let ctrText = document.getElementById("click through rate")
 
-  pageViewsText.innerText = await getPageViews()
-  signupClicksText.innerText = await getSignupClicks()
-  ctrText.innerText = await getCTR()
+  for (let i in EXPERIMENTS) {
+    let experiment = EXPERIMENTS[i]
 
+    let pageViews = await getPageViews(experiment)
+    let signupClicks = await getSignupClicks(experiment)
+    let ctr = await getCTR(experiment)
+
+    pageViewsText.innerText += ` ${experiment}: ${pageViews}`
+    signupClicksText.innerText += ` ${experiment}: ${signupClicks}`
+    ctrText.innerText += ` ${experiment}: ${ctr}`
+  }
 }
