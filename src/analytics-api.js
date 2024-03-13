@@ -40,7 +40,7 @@ const apiEndPoint = async (params) => {
   let data = {}
 
   if (params["type"] == "page-view") {
-    data = { time: params["time"] }
+    data = { time: params["time"], experiment: localStorage.getItem("src") }
 
     const requestIDB = indexedDB.open("db", 4)
 
@@ -55,7 +55,7 @@ const apiEndPoint = async (params) => {
   }
 
   if (params["type"] == "signup-click") {
-    data = { time: params["time"] }
+    data = { time: params["time"], experiment: localStorage.getItem("src") }
 
     const requestIDB = indexedDB.open("db", 4)
 

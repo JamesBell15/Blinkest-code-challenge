@@ -15,9 +15,13 @@ const upgradeStores = (event) => {
 
     pageViews.createIndex("time", "time", { unique: false })
 
+    pageViews.createIndex("experiment", "experiment", { unique: false } )
+
     const signupClicks = db.createObjectStore("signupClicks", { autoIncrement: true })
 
     signupClicks.createIndex("time", "time", { unique: false })
+
+    signupClicks.createIndex("experiment", "experiment", { unique: false } )
 
     console.log("Upgraded!")
 }
