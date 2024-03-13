@@ -1,4 +1,3 @@
-import { trackPageview, trackEvent } from "./src/analytics-api.js"
 
 // Your code here
 
@@ -20,6 +19,7 @@ function getRandomInt(max) {
   return Math.floor(Math.random() * max);
 }
 
+// No access to the file system so add manually
 const experiments = [
   "/src/experiments/a.html",
   "/src/experiments/b.html",
