@@ -23,7 +23,7 @@ Also add the relative path in `/src/experiments.js`. Many experiments can be ran
 Entirely written in javascript to be run within the browser.
 This comes with the issues such as persistent storage, to address this I used IndexedDB to simulate a NoSQL style database. Local storage to simulate user storage.
 
-A major consequence is this could not be deployed, and would only work in a setting where the sights were being shown in person, where someone could reset the site between users.
+A major consequence is this could not be deployed, and would only work in a setting where the sites were being shown in person, where someone could reset the site between users.
 
 To solve this the site would be hosted on a framework such as Rails or Node, and have the api requests sent to the server.
 
