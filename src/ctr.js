@@ -35,3 +35,56 @@ requestIDB.onsuccess = (event) => {
 requestIDB.onerror = (event) => {
     console.log(`DB ERROR: ${event.target.errorCode}`)
 }
+
+const getPageViews = async () => {
+  const requestIDB = indexedDB.open("db", 4)
+
+  return new Promise (function(resolve) {
+    requestIDB.onsuccess = async (event) => {
+      const transaction = requestIDB.result.transaction("pageViews")
+      const sightingStore = transaction.objectStore("pageViews")
+
+      sightingStore.count().onsuccess = async (event) => {
+
+        return resolve(event.target.result)
+      }
+    }
+  })
+}
+
+const getSignupClicks = async () => {
+
+  const requestIDB = indexedDB.open("db", 4)
+
+  return new Promise (function(resolve) {
+    requestIDB.onsuccess = async (event) => {
+      const transaction = requestIDB.result.transaction("signupClicks")
+      const sightingStore = transaction.objectStore("signupClicks")
+
+      sightingStore.count().onsuccess = async (event) => {
+
+        return resolve(event.target.result)
+      }
+    }
+  })
+}
+
+const getCTR = async () => {
+  let pageViews = await getPageViews()
+  let signupClicks = await getSignupClicks()
+
+  return signupClicks / pageViews
+}
+
+
+window.onload = async function () {
+  let frame = document.getElementById("test-frame")
+  let signupClicksText = document.getElementById("clicks")
+  let pageViewsText = document.getElementById("visits")
+  let ctrText = document.getElementById("click through rate")
+
+  pageViewsText.innerText = await getPageViews()
+  signupClicksText.innerText = await getSignupClicks()
+  ctrText.innerText = await getCTR()
+
+}
